@@ -11,7 +11,7 @@ int capsRefCount(GstCaps *c) {
 import "C"
 
 import (
-	"github.com/ziutek/glib"
+	"github.com/lidouf/glib"
 	"unsafe"
 )
 

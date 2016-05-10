@@ -8,7 +8,7 @@ import "C"
 
 import (
 	"fmt"
-	"github.com/ziutek/glib"
+	"github.com/lidouf/glib"
 	"unsafe"
 )
 

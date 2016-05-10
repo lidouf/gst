@@ -12,7 +12,7 @@ static GstPad* get_active_switch_pad(GstElement *switcher) {
 import "C"
 
 import (
-	"github.com/ziutek/glib"
+	"github.com/lidouf/glib"
 	"unsafe"
 )
 
