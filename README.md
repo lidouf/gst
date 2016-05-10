@@ -1,12 +1,12 @@
 # gst
-based on ziutek's `Go bindings for GStreamer` and make some fixes
+based on ziutek's [Go bindings for GStreamer](https://github.com/ziutek/gst) and make some fixes
 
 ### Go bindings for GStreamer at a very early stage of maturity.
 
-This package is based on [GLib bindings](https://github.com/ziutek/glib). It
+This package is based on [GLib bindings](https://github.com/lidouf/glib)<it's also based on ziutek's glib binding and make some fixes>. It
 should be goinstalable. Try
 
-    $ go get github.com/ziutek/gst
+    $ go get github.com/lidouf/gst
 
 #### Documentation
 
