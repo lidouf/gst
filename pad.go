@@ -7,7 +7,6 @@ package gst
 import "C"
 
 import (
-	"fmt"
 	"github.com/lidouf/glib"
 	"unsafe"
 )
@@ -74,7 +73,6 @@ type Pad struct {
 
 //LiD: add GstPad Type() interface
 func (p *Pad) Type() glib.Type {
-	fmt.Printf("LiD8002, get Type\n")
 	return glib.TypeFromName("GstPad")
 }
 
