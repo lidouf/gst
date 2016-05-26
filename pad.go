@@ -92,6 +92,10 @@ func (p *Pad) Link(sink_pad *Pad) PadLinkReturn {
 	return PadLinkReturn(C.gst_pad_link(p.g(), sink_pad.g()))
 }
 
+func (p *Pad) QueryCaps() *Caps {
+	return (*Caps)(C.gst_pad_query_caps(p.g(), nil))
+}
+
 type GhostPad struct {
 	Pad
 }
