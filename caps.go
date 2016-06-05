@@ -41,6 +41,10 @@ func (c *Caps) GetSize() int {
 	return int(C.gst_caps_get_size(c.g()))
 }
 
+func (c *Caps) GetStructure(index uint) *Structure {
+	return (*Structure)(C.gst_caps_get_structure(c.g(), C.guint(index)))
+}
+
 func (c *Caps) String() string {
 	s := (*C.char)(C.gst_caps_to_string(c.g()))
 	defer C.free(unsafe.Pointer(s))
