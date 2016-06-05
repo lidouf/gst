@@ -12,6 +12,7 @@ static GstPad* get_active_switch_pad(GstElement *switcher) {
 import "C"
 
 import (
+	"errors"
 	"github.com/lidouf/glib"
 	"unsafe"
 )
@@ -168,6 +169,34 @@ func (e *Element) GetBus() *Bus {
 	b := new(Bus)
 	b.SetPtr(glib.Pointer(bus))
 	return b
+}
+
+func (e *Element) QueryPosition(format Format) (int64, error) {
+	var pos C.gint64
+	ret := C.gst_element_query_position(e.g(), *(format.g()), &pos)
+	if ret == 0 {
+		return -1, errors.New("Query position from element failed")
+	} else {
+		return int64(pos), nil
+	}
+}
+
+func (e *Element) QueryDuration(format Format) (int64, error) {
+	var duration C.gint64
+	ret := C.gst_element_query_duration(e.g(), *(format.g()), &duration)
+	if ret == 0 {
+		return -1, errors.New("Query duration from element failed")
+	} else {
+		return int64(duration), nil
+	}
+}
+
+func (e *Element) Query(q *Query) bool {
+	return C.gst_element_query(e.g(), q.g()) == 1
+}
+
+func (e *Element) SeekSimple(format Format, flags SeekFlags, pos int64) bool {
+	return C.gst_element_seek_simple(e.g(), *(format.g()), flags.g(), (C.gint64)(pos)) == 1
 }
 
 // TODO: Move ElementFactoryMake to element_factory.go
