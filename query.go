@@ -5,6 +5,10 @@ package gst
 */
 import "C"
 
+import (
+	"time"
+)
+
 type QueryTypeFlags C.GstQueryTypeFlags
 
 const (
@@ -23,7 +27,7 @@ func (q *Query) AsQuery() *Query {
 	return q
 }
 
-func (q *Query) ParseSeeking(format *Format) (bool, int64, int64) {
+func (q *Query) ParseSeeking(format *Format) (bool, time.Duration, time.Duration) {
 	var seekable C.gboolean
 	var start, end C.gint64
 	if format == nil {
@@ -32,7 +36,7 @@ func (q *Query) ParseSeeking(format *Format) (bool, int64, int64) {
 		C.gst_query_parse_seeking(q.g(), format.g(), &seekable, &start, &end)
 	}
 
-	return seekable == 1, (int64)(start), (int64)(end)
+	return seekable == 1, (time.Duration)(start), (time.Duration)(end)
 }
 
 func (q *Query) Unref() {

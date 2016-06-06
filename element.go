@@ -14,6 +14,7 @@ import "C"
 import (
 	"errors"
 	"github.com/lidouf/glib"
+	"time"
 	"unsafe"
 )
 
@@ -171,23 +172,23 @@ func (e *Element) GetBus() *Bus {
 	return b
 }
 
-func (e *Element) QueryPosition(format Format) (int64, error) {
+func (e *Element) QueryPosition(format Format) (time.Duration, error) {
 	var pos C.gint64
 	ret := C.gst_element_query_position(e.g(), *(format.g()), &pos)
 	if ret == 0 {
 		return -1, errors.New("Query position from element failed")
 	} else {
-		return int64(pos), nil
+		return time.Duration(pos), nil
 	}
 }
 
-func (e *Element) QueryDuration(format Format) (int64, error) {
+func (e *Element) QueryDuration(format Format) (time.Duration, error) {
 	var duration C.gint64
 	ret := C.gst_element_query_duration(e.g(), *(format.g()), &duration)
 	if ret == 0 {
 		return -1, errors.New("Query duration from element failed")
 	} else {
-		return int64(duration), nil
+		return time.Duration(duration), nil
 	}
 }
 
