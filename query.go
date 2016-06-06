@@ -1,14 +1,9 @@
 package gst
 
 /*
-#include <stdlib.h>
 #include <gst/gst.h>
 */
 import "C"
-
-import (
-	"unsafe"
-)
 
 type QueryTypeFlags C.GstQueryTypeFlags
 
@@ -29,14 +24,15 @@ func (q *Query) AsQuery() *Query {
 }
 
 func (q *Query) ParseSeeking(format *Format) (bool, int64, int64) {
-	seekable := new(C.gboolean)
-	defer C.free(unsafe.Pointer(seekable))
-	start := new(C.gint64)
-	defer C.free(unsafe.Pointer(start))
-	end := new(C.gint64)
-	defer C.free(unsafe.Pointer(end))
-	C.gst_query_parse_seeking(q.g(), format.g(), seekable, start, end)
-	return *seekable == 1, (int64)(*start), (int64)(*end)
+	var seekable C.gboolean
+	var start, end C.gint64
+	if format == nil {
+		C.gst_query_parse_seeking(q.g(), nil, &seekable, &start, &end)
+	} else {
+		C.gst_query_parse_seeking(q.g(), format.g(), &seekable, &start, &end)
+	}
+
+	return seekable == 1, (int64)(start), (int64)(end)
 }
 
 func (q *Query) Unref() {
