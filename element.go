@@ -3,6 +3,7 @@ package gst
 /*
 #include <stdlib.h>
 #include <gst/gst.h>
+#include "gst.go.h"
 static GstPad* get_active_switch_pad(GstElement *switcher) {
 	GstPad* active_pad;
 	g_object_get(G_OBJECT(switcher), "active-pad", &active_pad, NULL);
@@ -67,6 +68,15 @@ func (e *Element) g() *C.GstElement {
 
 func (e *Element) AsElement() *Element {
 	return e
+}
+
+func (e *Element) AsVideoOverlay() *VideoOverlay {
+	cVideoOverlay := C.toGstVideoOverlay(e.GetPtr())
+	//defer C.free(unsafe.Pointer(cVideoOverlay))
+	goVideoOverlay := new(VideoOverlay)
+	goVideoOverlay.SetPtr(glib.Pointer(cVideoOverlay))
+
+	return goVideoOverlay
 }
 
 func (e *Element) Link(next ...*Element) bool {
@@ -198,6 +208,10 @@ func (e *Element) Query(q *Query) bool {
 
 func (e *Element) SeekSimple(format Format, flags SeekFlags, pos int64) bool {
 	return C.gst_element_seek_simple(e.g(), *(format.g()), flags.g(), (C.gint64)(pos)) == 1
+}
+
+func (e *Element) PostMessage(msg *Message) bool {
+	return C.gst_element_post_message(e.g(), msg.g()) == 1
 }
 
 // TODO: Move ElementFactoryMake to element_factory.go

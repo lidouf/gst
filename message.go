@@ -161,3 +161,7 @@ func (m *Message) ParseStateChanged() (oldState, newState, pendingState State) {
 	C.gst_message_parse_state_changed(m.g(), oldState.g(), newState.g(), pendingState.g())
 	return
 }
+
+func NewApplicationMessage(o *GstObj, structure *Structure) *Message {
+	return (*Message)(C.gst_message_new_application(o.g(), structure.g()))
+}
