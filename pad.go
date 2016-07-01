@@ -100,6 +100,10 @@ func (p *Pad) QueryCaps() *Caps {
 	return (*Caps)(C.gst_pad_query_caps(p.g(), nil))
 }
 
+func (p *Pad) HasCurrentCaps() bool {
+	return C.gst_pad_has_current_caps(p.g()) != 0
+}
+
 func (p *Pad) GetCurrentCaps() *Caps {
 	return (*Caps)(C.gst_pad_get_current_caps(p.g()))
 }
