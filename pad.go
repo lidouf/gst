@@ -67,6 +67,30 @@ func (p PadDirection) String() string {
 	panic("Wrong value of PadDirection variable")
 }
 
+type PadPresence C.GstPadPresence
+
+const (
+	PAD_ALWAYS    = PadPresence(C.GST_PAD_ALWAYS)
+	PAD_SOMETIMES = PadPresence(C.GST_PAD_SOMETIMES)
+	PAD_REQUEST   = PadPresence(C.GST_PAD_REQUEST)
+)
+
+func (p PadPresence) g() C.GstPadPresence {
+	return C.GstPadPresence(p)
+}
+
+func (p PadPresence) String() string {
+	switch p {
+	case PAD_ALWAYS:
+		return "PAD_ALWAYS"
+	case PAD_SOMETIMES:
+		return "PAD_SOMETIMES"
+	case PAD_REQUEST:
+		return "PAD_REQUEST"
+	}
+	panic("Wrong value of PadPresence variable")
+}
+
 type Pad struct {
 	GstObj
 }
