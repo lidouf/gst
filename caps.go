@@ -51,6 +51,14 @@ func (c *Caps) String() string {
 	return C.GoString(s)
 }
 
+func (c *Caps) IsAny() bool {
+	return C.gst_caps_is_any(c.g()) != 0
+}
+
+func (c *Caps) IsEmpty() bool {
+	return C.gst_caps_is_empty(c.g()) != 0
+}
+
 func NewCapsAny() *Caps {
 	return (*Caps)(C.gst_caps_new_any())
 }

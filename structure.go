@@ -20,6 +20,10 @@ func (s *Structure) GetName() string {
 	return C.GoString((*C.char)(C.gst_structure_get_name(s.g())))
 }
 
+func (s *Structure) Parse() (string, glib.Params) {
+	return parseGstStructure(s)
+}
+
 func MakeStructure(name string, fields *glib.Params) *Structure {
 	var f glib.Params
 	if fields == nil {
