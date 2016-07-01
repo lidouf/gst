@@ -182,4 +182,17 @@ func parseGstStructure(s *C.GstStructure) (name string, fields glib.Params) {
 	return
 }
 
+func convertToGoSlice(ptr **C.gchar, length int) []string {
+	tmpslice := (*[1 << 30]*C.char)(unsafe.Pointer(ptr))[:length:length]
+	gostrings := make([]string, 0, length)
+	for _, s := range tmpslice {
+		if s == nil {
+			break
+		}
+		gostrings = append(gostrings, C.GoString(s))
+	}
+
+	return gostrings
+}
+
 var CLOCK_TIME_NONE = int64(C.GST_CLOCK_TIME_NONE)
