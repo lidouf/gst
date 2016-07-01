@@ -73,6 +73,10 @@ func (f *ElementFactory) GetIconName() string {
 	return C.GoString((*C.char)(C.gst_element_factory_get_metadata(f.g(), (*C.gchar)(C.CString(ELEMENT_METADATA_ICON_NAME)))))
 }
 
+func (f *ElementFactory) GetNumPadTemplates() uint {
+	return uint(C.gst_element_factory_get_num_pad_templates(f.g()))
+}
+
 func ElementFactoryMake(factory_name, name string) *Element {
 	fn := (*C.gchar)(C.CString(factory_name))
 	defer C.free(unsafe.Pointer(fn))
