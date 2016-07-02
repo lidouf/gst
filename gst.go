@@ -12,12 +12,12 @@ import (
 	//"fmt"
 	"os"
 	"unsafe"
-	//"github.com/lidouf/glib"
+	//"github.com/gotk3/gotk3/glib"
 )
 
 //var TYPE_FOURCC, TYPE_INT_RANGE, TYPE_FRACTION glib.Type
 
-func init() {
+func Init() {
 	alen := C.int(len(os.Args))
 	argv := make([]*C.char, alen)
 	for i, s := range os.Args {
@@ -32,6 +32,12 @@ func init() {
 	//
 	//TYPE_INT_RANGE = glib.Type(C.gst_int_range_get_type())
 	//TYPE_FRACTION = glib.Type(C.gst_fraction_get_type())
+}
+
+func Version() (uint, uint, uint, uint) {
+	var major, minor, micro, nano C.guint
+	C.gst_version(&major, &minor, &micro, &nano)
+	return uint(major), uint(minor), uint(micro), uint(nano)
 }
 
 //var CLOCK_TIME_NONE = int64(C.GST_CLOCK_TIME_NONE)
