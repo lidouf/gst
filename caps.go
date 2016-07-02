@@ -92,6 +92,10 @@ func (c *StaticCaps) Caps() *Caps {
 	return (*Caps)(c.g().caps)
 }
 
+func (c *StaticCaps) Get() *Caps {
+	return (*Caps)(C.gst_static_caps_get(c.g()))
+}
+
 func (c *StaticCaps) String() string {
 	return C.GoString(c.g().string)
 }
