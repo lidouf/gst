@@ -21,7 +21,7 @@ func (s *Structure) GetName() string {
 }
 
 func (s *Structure) Parse() (string, glib.Params) {
-	return parseGstStructure(s)
+	return parseGstStructure(s.g())
 }
 
 func MakeStructure(name string, fields *glib.Params) *Structure {
