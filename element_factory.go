@@ -9,6 +9,7 @@ import "C"
 import (
 	"github.com/lidouf/glib"
 	"unsafe"
+	//"fmt"
 )
 
 type ElementFactory struct {
@@ -75,6 +76,18 @@ func (f *ElementFactory) GetIconName() string {
 
 func (f *ElementFactory) GetNumPadTemplates() uint {
 	return uint(C.gst_element_factory_get_num_pad_templates(f.g()))
+}
+
+func (f *ElementFactory) GetStaticPadTemplates() []*StaticPadTemplate {
+	clist := C.gst_element_factory_get_static_pad_templates(f.g())
+
+	padTemplates := make([]*StaticPadTemplate, 0)
+	list := glib.WrapList(uintptr(unsafe.Pointer(clist)))
+	for ; list != nil && list.Data() != nil; list = list.Next() {
+		padTemplates = append(padTemplates, (*StaticPadTemplate)(list.Data().(unsafe.Pointer)))
+	}
+
+	return padTemplates
 }
 
 func ElementFactoryMake(factory_name, name string) *Element {

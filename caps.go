@@ -78,3 +78,20 @@ func CapsFromString(s string) *Caps {
 	defer C.free(unsafe.Pointer(cs))
 	return (*Caps)(C.gst_caps_from_string(cs))
 }
+
+type StaticCaps C.GstStaticCaps
+
+func (c *StaticCaps) g() *C.GstStaticCaps {
+	return (*C.GstStaticCaps)(c)
+}
+
+func (c *StaticCaps) Caps() *Caps {
+	if c.g().caps == nil {
+		return nil
+	}
+	return (*Caps)(c.g().caps)
+}
+
+func (c *StaticCaps) String() string {
+	return C.GoString(c.g().string)
+}
