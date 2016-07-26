@@ -9,6 +9,9 @@ static GstPad* get_active_switch_pad(GstElement *switcher) {
 	g_object_get(G_OBJECT(switcher), "active-pad", &active_pad, NULL);
 	return active_pad;
 }
+GstElementClass* get_class_by_element(GstElement *element) {
+	return GST_ELEMENT_GET_CLASS(element);
+}
 */
 import "C"
 
@@ -144,6 +147,30 @@ func (e *Element) GetRequestPad(name string) *Pad {
 	return p
 }
 
+func (e *Element) RequestPad(templ *PadTemplate, name string, caps *Caps) *Pad {
+	s := (*C.gchar)(C.CString(name))
+	defer C.free(unsafe.Pointer(s))
+	if name == "" {
+		s = nil
+	}
+	var cp *C.GstPad
+	if caps == nil {
+		cp = C.gst_element_request_pad(e.g(), templ.g(), s, nil)
+	} else {
+		cp = C.gst_element_request_pad(e.g(), templ.g(), s, caps.g())
+	}
+	if cp == nil {
+		return nil
+	}
+	p := new(Pad)
+	p.SetPtr(glib.Pointer(cp))
+	return p
+}
+
+func (e *Element) ReleaseRequestPad(pad *Pad) {
+	C.gst_element_release_request_pad(e.g(), pad.g())
+}
+
 func (e *Element) GetStaticPad(name string) *Pad {
 	s := (*C.gchar)(C.CString(name))
 	defer C.free(unsafe.Pointer(s))
@@ -212,4 +239,29 @@ func (e *Element) SeekSimple(format Format, flags SeekFlags, pos int64) bool {
 
 func (e *Element) PostMessage(msg *Message) bool {
 	return C.gst_element_post_message(e.g(), msg.g()) == 1
+}
+
+func (e *Element) GetClass() *ElementClass {
+	c := C.get_class_by_element(e.g())
+	ec := new(ElementClass)
+	ec.SetPtr(glib.Pointer(c))
+	return ec
+}
+
+type ElementClass struct {
+	GstObj
+}
+
+func (ec *ElementClass) g() *C.GstElementClass {
+	return (*C.GstElementClass)(ec.GetPtr())
+}
+
+func (ec *ElementClass) AsElementClass() *ElementClass {
+	return ec
+}
+
+func (ec *ElementClass) GetPadTemplate(name string) *PadTemplate {
+	s := (*C.gchar)(C.CString(name))
+	defer C.free(unsafe.Pointer(s))
+	return (*PadTemplate)(C.gst_element_class_get_pad_template(ec.g(), s))
 }

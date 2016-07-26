@@ -11,6 +11,12 @@ import (
 //"unsafe"
 )
 
+type PadTemplate C.GstPadTemplate
+
+func (t *PadTemplate) g() *C.GstPadTemplate {
+	return (*C.GstPadTemplate)(t)
+}
+
 type StaticPadTemplate C.GstStaticPadTemplate
 
 func (t *StaticPadTemplate) g() *C.GstStaticPadTemplate {
