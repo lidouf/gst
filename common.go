@@ -182,6 +182,17 @@ func parseGstStructure(s *C.GstStructure) (name string, fields glib.Params) {
 	return
 }
 
+func serializeGstStructure(s *C.GstStructure) glib.Params {
+	ps := C._parse_struct(s)
+	n := (int)(ps.n)
+	tab := (*[1 << 16]C.Field)(unsafe.Pointer(ps.tab))[:n]
+	fields := make(glib.Params)
+	for _, f := range tab {
+		fields[C.GoString(f.name)] = C.GoString((*C.char)(C.gst_value_serialize(f.val)))
+	}
+	return fields
+}
+
 func convertToGoSlice(ptr **C.gchar, length int) []string {
 	tmpslice := (*[1 << 30]*C.char)(unsafe.Pointer(ptr))[:length:length]
 	gostrings := make([]string, 0, length)
