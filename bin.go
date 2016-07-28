@@ -62,3 +62,19 @@ func (b *Bin) GetByName(name string) *Element {
 	e.SetPtr(p)
 	return e
 }
+
+func (b *Bin) DebugToDotData(details DebugGraphDetails) string {
+	return (C.GoString)((*C.char)(C.gst_debug_bin_to_dot_data(b.g(), (C.GstDebugGraphDetails)(details))))
+}
+
+func (b *Bin) DebugToDotFile(filename string, details DebugGraphDetails) {
+	s := (*C.gchar)(C.CString(filename))
+	defer C.free(unsafe.Pointer(s))
+	C.gst_debug_bin_to_dot_file(b.g(), (C.GstDebugGraphDetails)(details), s)
+}
+
+func (b *Bin) DebugToDotFileWithTs(filename string, details DebugGraphDetails) {
+	s := (*C.gchar)(C.CString(filename))
+	defer C.free(unsafe.Pointer(s))
+	C.gst_debug_bin_to_dot_file_with_ts(b.g(), (C.GstDebugGraphDetails)(details), s)
+}
