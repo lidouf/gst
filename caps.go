@@ -3,6 +3,7 @@ package gst
 /*
 #include <stdlib.h>
 #include <gst/gst.h>
+#include <gst/pbutils/pbutils.h>
 
 int capsRefCount(GstCaps *c) {
 	return GST_CAPS_REFCOUNT(c);
@@ -57,6 +58,14 @@ func (c *Caps) IsAny() bool {
 
 func (c *Caps) IsEmpty() bool {
 	return C.gst_caps_is_empty(c.g()) != 0
+}
+
+func (c *Caps) IsFixed() bool {
+	return C.gst_caps_is_fixed(c.g()) != 0
+}
+
+func (c *Caps) GetCodecDescription() string {
+	return C.GoString((*C.char)(C.gst_pb_utils_get_codec_description(c.g())))
 }
 
 func NewCapsAny() *Caps {
