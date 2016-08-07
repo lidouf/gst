@@ -24,6 +24,10 @@ func (s *Structure) Serialize() glib.Params {
 	return serializeGstStructure(s.g())
 }
 
+func (s *Structure) ToString() string {
+	return C.GoString((*C.char)(C.gst_structure_to_string(s.g())))
+}
+
 func MakeStructure(name string, fields *glib.Params) *Structure {
 	var f glib.Params
 	if fields == nil {
