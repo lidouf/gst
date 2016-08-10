@@ -22,7 +22,8 @@ http://127.0.0.1:8080 with your browser. You probably need to wait a long time
 for video because of small bitrate of this stream and big buffer in you browser.
 
 ### PROGRESS
-
+#### GStreamer Core Library
+    Gst                 6/12
     GstBin              6/21
     GstBus              16/24
     GstCaps             14/65
@@ -35,10 +36,11 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstMessage          8/88
     GstObject           6/41
     GstPad              7/180
-    GstPadTemplate      9/10
+    GstPadTemplate      8/10
     GstPipeline         13/13
     GstQuery            3/96
     GstSegment          0/19
     GstStructure        3/69
     GstTagList          2/66
+#### gst-plugins-base-libs
     GstVideoOverlay     1/7

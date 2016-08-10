@@ -3,9 +3,9 @@ package gst
 /*
 #include <stdlib.h>
 #include <gst/gst.h>
-static gboolean pad_template_is_fixed(GstPadTemplate *templ) {
-	return GST_PAD_TEMPLATE_IS_FIXED(templ);
-}
+//static gboolean pad_template_is_fixed(GstPadTemplate *templ) {
+//	return GST_PAD_TEMPLATE_IS_FIXED(templ);
+//}
 */
 import "C"
 
@@ -23,9 +23,9 @@ func (t *PadTemplate) GetCaps() *Caps {
 	return (*Caps)(unsafe.Pointer(C.gst_pad_template_get_caps(t.g())))
 }
 
-func (t *PadTemplate) IsFixed() bool {
-	return C.pad_template_is_fixed(t.g()) != 0
-}
+//func (t *PadTemplate) IsFixed() bool {
+//	return C.pad_template_is_fixed(t.g()) != 0
+//}
 
 func NewPadTemplate(name string, direction PadDirection, presence PadPresence, caps *Caps) *PadTemplate {
 	s := (*C.gchar)(C.CString(name))

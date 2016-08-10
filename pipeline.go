@@ -54,7 +54,13 @@ func (p *Pipeline) AutoClock() {
 }
 
 func (p *Pipeline) SetAutoFlushBus(autoFlush bool) {
-	C.gst_pipeline_set_auto_flush_bus(p.g(), autoFlush)
+	var af int
+	if autoFlush {
+		af = 1
+	} else {
+		af = 0
+	}
+	C.gst_pipeline_set_auto_flush_bus(p.g(), C.gboolean(af))
 }
 
 func (p *Pipeline) GetAutoFlushBus() bool {
@@ -62,7 +68,7 @@ func (p *Pipeline) GetAutoFlushBus() bool {
 }
 
 func (p *Pipeline) SetDelay(delay ClockTime) {
-	C.gst_pipeline_set_delay(p.g(), delay.AsUint64())
+	C.gst_pipeline_set_delay(p.g(), C.GstClockTime(delay))
 }
 
 func (p *Pipeline) GetDelay() ClockTime {
@@ -70,7 +76,7 @@ func (p *Pipeline) GetDelay() ClockTime {
 }
 
 func (p *Pipeline) SetLatency(latency ClockTime) {
-	C.gst_pipeline_set_latency(p.g(), latency.AsUint64())
+	C.gst_pipeline_set_latency(p.g(), C.GstClockTime(latency))
 }
 
 func (p *Pipeline) GetLatency() ClockTime {
