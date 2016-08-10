@@ -20,3 +20,25 @@ To run examples use `go run` command:
 To run live WebM example use `go run live_webm.go` and open
 http://127.0.0.1:8080 with your browser. You probably need to wait a long time
 for video because of small bitrate of this stream and big buffer in you browser.
+
+### PROGRESS
+
+    GstBin              6/21
+    GstBus              16/24
+    GstCaps             14/65
+    GstClock            1/49
+    GstDiscoverer       20/54
+    GstElement          18/90
+    GstElementFactory   7/19
+    GstFormat           0/7
+    GstInfo             0/86
+    GstMessage          8/88
+    GstObject           6/41
+    GstPad              7/180
+    GstPadTemplate      9/10
+    GstPipeline         13/13
+    GstQuery            3/96
+    GstSegment          0/19
+    GstStructure        3/69
+    GstTagList          2/66
+    GstVideoOverlay     1/7
