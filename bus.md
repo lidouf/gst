@@ -1,0 +1,28 @@
+**progress**
+16/24
+```
+    gboolean 	(*GstBusFunc) ()
+    GstBusSyncReply 	(*GstBusSyncHandler) ()
+Y   GstBus * 	gst_bus_new ()
+Y   gboolean 	gst_bus_post ()
+Y   gboolean 	gst_bus_have_pending ()
+Y   GstMessage * 	gst_bus_peek ()
+Y   GstMessage * 	gst_bus_pop ()
+Y   GstMessage * 	gst_bus_pop_filtered ()
+Y   GstMessage * 	gst_bus_timed_pop ()
+Y   GstMessage * 	gst_bus_timed_pop_filtered ()
+Y   void 	gst_bus_set_flushing ()
+    void 	gst_bus_set_sync_handler ()
+    GstBusSyncReply 	gst_bus_sync_signal_handler ()
+    GSource * 	gst_bus_create_watch ()
+    guint 	gst_bus_add_watch_full ()
+    guint 	gst_bus_add_watch ()
+    gboolean 	gst_bus_remove_watch ()
+Y   void 	gst_bus_disable_sync_message_emission ()
+Y   void 	gst_bus_enable_sync_message_emission ()
+    gboolean 	gst_bus_async_signal_func ()
+Y   void 	gst_bus_add_signal_watch ()
+Y   void 	gst_bus_add_signal_watch_full ()
+Y   void 	gst_bus_remove_signal_watch ()
+Y   GstMessage * 	gst_bus_poll ()
+```

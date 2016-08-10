@@ -20,8 +20,8 @@ func (f *ElementFactory) g() *C.GstElementFactory {
 	return (*C.GstElementFactory)(f.GetPtr())
 }
 
-func (e *ElementFactory) AsElementFactory() *ElementFactory {
-	return e
+func (f *ElementFactory) AsElementFactory() *ElementFactory {
+	return f
 }
 
 func (f *ElementFactory) Create(name string) *Element {
