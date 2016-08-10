@@ -23,7 +23,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
 
 ### PROGRESS
 #### GStreamer Core Library
-    Gst                 6/12
+    Gst                 11/12
     GstBin              6/21
     GstBus              16/24
     GstCaps             14/65
