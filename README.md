@@ -28,13 +28,12 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstBus              16/24
     GstCaps             14/65
     GstClock            1/49
-    GstDiscoverer       20/54
     GstElement          18/90
     GstElementFactory   7/19
     GstFormat           0/7
     GstInfo             0/86
     GstMessage          8/88
-    GstObject           6/41
+    GstObject           21/41
     GstPad              7/180
     GstPadTemplate      8/10
     GstPipeline         13/13
@@ -43,4 +42,5 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstStructure        3/69
     GstTagList          2/66
 #### gst-plugins-base-libs
+    GstDiscoverer       20/54
     GstVideoOverlay     1/7
