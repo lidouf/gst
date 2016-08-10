@@ -68,6 +68,10 @@ func (d *DiscovererStreamInfo) GetPrevious() *DiscovererStreamInfo {
 	return (*DiscovererStreamInfo)(C.gst_discoverer_stream_info_get_previous(d.g()))
 }
 
+func (d *DiscovererStreamInfo) GetStreamId() string {
+	return C.GoString((*C.char)(C.gst_discoverer_stream_info_get_stream_id(d.g())))
+}
+
 func (d *DiscovererStreamInfo) GetStreamTypeNick() string {
 	return C.GoString((*C.char)(C.gst_discoverer_stream_info_get_stream_type_nick(d.g())))
 }
@@ -130,6 +134,10 @@ func (d *DiscovererInfo) GetSeekable() bool {
 
 func (d *DiscovererInfo) GetStreamInfo() *DiscovererStreamInfo {
 	return (*DiscovererStreamInfo)(C.gst_discoverer_info_get_stream_info(d.g()))
+}
+
+func (d *DiscovererInfo) GetStreamList() *glib.List {
+	return glib.WrapList(uintptr(unsafe.Pointer(C.gst_discoverer_info_get_stream_list(d.g()))))
 }
 
 type Discoverer struct {
