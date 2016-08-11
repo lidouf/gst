@@ -276,5 +276,7 @@ func (ec *ElementClass) AsElementClass() *ElementClass {
 func (ec *ElementClass) GetPadTemplate(name string) *PadTemplate {
 	s := (*C.gchar)(C.CString(name))
 	defer C.free(unsafe.Pointer(s))
-	return (*PadTemplate)(C.gst_element_class_get_pad_template(ec.g(), s))
+	pt := new(PadTemplate)
+	pt.SetPtr(glib.Pointer(C.gst_element_class_get_pad_template(ec.g(), s)))
+	return pt
 }

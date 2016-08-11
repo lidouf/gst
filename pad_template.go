@@ -10,13 +10,20 @@ package gst
 import "C"
 
 import (
+	"github.com/lidouf/glib"
 	"unsafe"
 )
 
-type PadTemplate C.GstPadTemplate
+type PadTemplate struct {
+	GstObj
+}
+
+func (t *PadTemplate) Type() glib.Type {
+	return glib.TypeFromName("GstPadTemplate")
+}
 
 func (t *PadTemplate) g() *C.GstPadTemplate {
-	return (*C.GstPadTemplate)(t)
+	return (*C.GstPadTemplate)(t.GetPtr())
 }
 
 func (t *PadTemplate) GetCaps() *Caps {
@@ -30,7 +37,9 @@ func (t *PadTemplate) GetCaps() *Caps {
 func NewPadTemplate(name string, direction PadDirection, presence PadPresence, caps *Caps) *PadTemplate {
 	s := (*C.gchar)(C.CString(name))
 	defer C.free(unsafe.Pointer(s))
-	return (*PadTemplate)(unsafe.Pointer(C.gst_pad_template_new(s, direction.g(), presence.g(), caps.g())))
+	pt := new(PadTemplate)
+	pt.SetPtr(glib.Pointer(C.gst_pad_template_new(s, direction.g(), presence.g(), caps.g())))
+	return pt
 }
 
 type StaticPadTemplate C.GstStaticPadTemplate
