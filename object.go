@@ -297,3 +297,15 @@ func (o *GstObj) ImplementsInterfaceCast(typ glib.Type) glib.Pointer {
 	return glib.Pointer(C.gst_implements_interface_cast(C.gpointer(o.GetPtr()),
 		C.GType(typ)))
 }*/
+
+type GstObjClass struct {
+	glib.Object
+}
+
+func (o *GstObjClass) g() *C.GstObjectClass {
+	return (*C.GstObjectClass)(o.GetPtr())
+}
+
+func (o *GstObjClass) AsGstObjClass() *GstObjClass {
+	return o
+}
