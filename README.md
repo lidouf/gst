@@ -28,6 +28,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstBus              16/24
     GstCaps             14/65
     GstClock            1/49
+    GstControlBinding   3/6
     GstElement          18/90
     GstElementFactory   7/19
     GstFormat           0/7
