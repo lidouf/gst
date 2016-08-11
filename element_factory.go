@@ -24,6 +24,14 @@ func (f *ElementFactory) AsElementFactory() *ElementFactory {
 	return f
 }
 
+// Get the GType for elements managed by this factory. The type can only be retrieved if the element factory is loaded,
+// which can be assured with gst_plugin_feature_load().
+// Returns
+// the GType for elements managed by this factory or 0 if the factory is not loaded.
+func (f *ElementFactory) GetElementType() glib.Type {
+	return glib.Type(C.gst_element_factory_get_element_type(f.g()))
+}
+
 func (f *ElementFactory) Create(name string) *Element {
 	n := (*C.gchar)(C.CString(name))
 	defer C.free(unsafe.Pointer(n))

@@ -1,9 +1,9 @@
 **progress**
-7/19
+8/19
 ```
     gboolean 	gst_element_register ()
 Y   GstElementFactory * 	gst_element_factory_find ()
-    GType 	gst_element_factory_get_element_type ()
+Y   GType 	gst_element_factory_get_element_type ()
 Y   const gchar * 	gst_element_factory_get_metadata ()
 Y   gchar ** 	gst_element_factory_get_metadata_keys ()
 Y   guint 	gst_element_factory_get_num_pad_templates ()
