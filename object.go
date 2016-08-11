@@ -3,6 +3,22 @@ package gst
 /*
 #include <stdlib.h>
 #include <gst/gst.h>
+static inline
+guint32 CALL_MACRO_GST_OBJECT_FLAGS(GstObject* obj) {
+	return GST_OBJECT_FLAGS(obj);
+}
+static inline
+gboolean CALL_MACRO_GST_OBJECT_FLAG_IS_SET(GstObject* obj, guint32 flag) {
+	return GST_OBJECT_FLAG_IS_SET(obj, flag);
+}
+static inline
+void CALL_MACRO_GST_OBJECT_FLAG_SET(GstObject* obj, guint32 flag) {
+	GST_OBJECT_FLAG_SET(obj, flag);
+}
+static inline
+void CALL_MACRO_GST_OBJECT_FLAG_UNSET(GstObject* obj, guint32 flag) {
+	GST_OBJECT_FLAG_UNSET(obj, flag);
+}
 */
 import "C"
 
@@ -21,6 +37,26 @@ func (o *GstObj) g() *C.GstObject {
 
 func (o *GstObj) AsGstObj() *GstObj {
 	return o
+}
+
+// This macro returns the entire set of flags for the object.
+func (o *GstObj) Flags() uint32 {
+	return uint32(C.CALL_MACRO_GST_OBJECT_FLAGS(o.g()))
+}
+
+//This macro checks to see if the given flag is set.
+func (o *GstObj) FlagIsSet(flag uint32) bool {
+	return C.CALL_MACRO_GST_OBJECT_FLAG_IS_SET(o.g(), C.guint32(flag)) != 0
+}
+
+//This macro sets the given bits.
+func (o *GstObj) FlagSet(flag uint32) {
+	C.CALL_MACRO_GST_OBJECT_FLAG_SET(o.g(), C.guint32(flag))
+}
+
+//This macro unsets the given bits.
+func (o *GstObj) FlagUnset(flag uint32) {
+	C.CALL_MACRO_GST_OBJECT_FLAG_UNSET(o.g(), C.guint32(flag))
 }
 
 // Sets the name of object.

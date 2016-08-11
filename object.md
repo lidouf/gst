@@ -1,14 +1,14 @@
 **progress**
-21/41
+29/41
 ```
-    #define 	GST_OBJECT_FLAGS()
-    #define 	GST_OBJECT_FLAG_IS_SET()
-    #define 	GST_OBJECT_FLAG_SET()
-    #define 	GST_OBJECT_FLAG_UNSET()
-    #define 	GST_OBJECT_NAME()
-    #define 	GST_OBJECT_PARENT()
-    #define 	GST_OBJECT_REFCOUNT()
-    #define 	GST_OBJECT_REFCOUNT_VALUE()
+Y   #define 	GST_OBJECT_FLAGS()
+Y   #define 	GST_OBJECT_FLAG_IS_SET()
+Y   #define 	GST_OBJECT_FLAG_SET()
+Y   #define 	GST_OBJECT_FLAG_UNSET()
+*   #define 	GST_OBJECT_NAME()
+*   #define 	GST_OBJECT_PARENT()
+*   #define 	GST_OBJECT_REFCOUNT()
+*   #define 	GST_OBJECT_REFCOUNT_VALUE()
     #define 	GST_OBJECT_LOCK()
     #define 	GST_OBJECT_TRYLOCK()
     #define 	GST_OBJECT_UNLOCK()
@@ -43,3 +43,7 @@ Y   void 	gst_object_set_control_binding_disabled ()
 Y   GstClockTime 	gst_object_get_control_rate ()
 Y   void 	gst_object_set_control_rate ()
 ```
+1. use gst_object_get_name() instead.
+2. use gst_object_get_parent() instead.
+3. derived from gobject
+4. derived from gobject
