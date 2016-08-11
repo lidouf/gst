@@ -262,21 +262,125 @@ func (e *Element) GetClass() *ElementClass {
 }
 
 type ElementClass struct {
-	GstObj
+	GstObjClass
 }
 
-func (ec *ElementClass) g() *C.GstElementClass {
-	return (*C.GstElementClass)(ec.GetPtr())
+func (c *ElementClass) g() *C.GstElementClass {
+	return (*C.GstElementClass)(c.GetPtr())
 }
 
-func (ec *ElementClass) AsElementClass() *ElementClass {
-	return ec
+func (c *ElementClass) AsElementClass() *ElementClass {
+	return c
 }
 
-func (ec *ElementClass) GetPadTemplate(name string) *PadTemplate {
+//Adds a padtemplate to an element class. This is mainly used in the _class_init functions of classes.
+//If a pad template with the same name as an already existing one is added the old one is replaced by the new one.
+func (c *ElementClass) AddPadTemplate(pt *PadTemplate) {
+	C.gst_element_class_add_pad_template(c.g(), pt.g())
+}
+
+//Adds a pad template to an element class based on the static pad template templ .
+//This is mainly used in the _class_init functions of element implementations.
+//If a pad template with the same name already exists, the old one is replaced by the new one.
+func (c *ElementClass) AddStaticPadTemplate(pt *StaticPadTemplate) {
+	C.gst_element_class_add_static_pad_template(c.g(), pt.g())
+}
+
+//Retrieves a padtemplate from element_class with the given name.
+//If you use this function in the GInstanceInitFunc of an object class that has subclasses, make sure to pass the g_class parameter of the GInstanceInitFunc here.
+//Returns
+//the GstPadTemplate with the given name, or NULL if none was found. No unreferencing is necessary.
+func (c *ElementClass) GetPadTemplate(name string) *PadTemplate {
 	s := (*C.gchar)(C.CString(name))
 	defer C.free(unsafe.Pointer(s))
 	pt := new(PadTemplate)
-	pt.SetPtr(glib.Pointer(C.gst_element_class_get_pad_template(ec.g(), s)))
+	pt.SetPtr(glib.Pointer(C.gst_element_class_get_pad_template(c.g(), s)))
 	return pt
+}
+
+//Retrieves a list of the pad templates associated with element_class . The list must not be modified by the calling code.
+//If you use this function in the GInstanceInitFunc of an object class that has subclasses, make sure to pass the g_class parameter of the GInstanceInitFunc here.
+//Returns
+//the GList of pad templates.
+func (c *ElementClass) GetPadTemplateList() *glib.List {
+	return glib.WrapList(uintptr(unsafe.Pointer(C.gst_element_class_get_pad_template_list(c.g()))))
+}
+
+//Sets the detailed information for a GstElementClass.
+//This function is for use in _class_init functions only.
+//Parameters
+//longname
+//The long English name of the element. E.g. "File Sink"
+//classification
+//String describing the type of element, as an unordered list separated with slashes ('/').
+//See draft-klass.txt of the design docs for more details and common types. E.g: "Sink/File"
+//description
+//Sentence describing the purpose of the element. E.g: "Write stream to a file"
+//author
+//Name and contact details of the author(s). Use \n to separate multiple author metadata. E.g: "Joe Bloggs <joe.blogs at foo.com>"
+func (c *ElementClass) SetMetadata(longName, classification, description, author string) {
+	s1 := (*C.gchar)(C.CString(longName))
+	defer C.free(unsafe.Pointer(s1))
+	s2 := (*C.gchar)(C.CString(classification))
+	defer C.free(unsafe.Pointer(s2))
+	s3 := (*C.gchar)(C.CString(description))
+	defer C.free(unsafe.Pointer(s3))
+	s4 := (*C.gchar)(C.CString(author))
+	defer C.free(unsafe.Pointer(s4))
+	C.gst_element_class_set_metadata(c.g(), s1, s2, s3, s4)
+}
+
+//Sets the detailed information for a GstElementClass.
+//This function is for use in _class_init functions only.
+//Same as gst_element_class_set_metadata(), but longname , classification , description , and author must be static strings or inlined strings,
+//as they will not be copied. (GStreamer plugins will be made resident once loaded, so this function can be used even from dynamically loaded plugins.)
+//Parameters
+//longname
+//The long English name of the element. E.g. "File Sink"
+//classification
+//String describing the type of element, as an unordered list separated with slashes ('/').
+//See draft-klass.txt of the design docs for more details and common types. E.g: "Sink/File"
+//description
+//Sentence describing the purpose of the element. E.g: "Write stream to a file"
+//author
+//Name and contact details of the author(s). Use \n to separate multiple author metadata. E.g: "Joe Bloggs <joe.blogs at foo.com>"
+func (c *ElementClass) SetStaticMetadata(longName, classification, description, author string) {
+	s1 := (*C.gchar)(C.CString(longName))
+	defer C.free(unsafe.Pointer(s1))
+	s2 := (*C.gchar)(C.CString(classification))
+	defer C.free(unsafe.Pointer(s2))
+	s3 := (*C.gchar)(C.CString(description))
+	defer C.free(unsafe.Pointer(s3))
+	s4 := (*C.gchar)(C.CString(author))
+	defer C.free(unsafe.Pointer(s4))
+	C.gst_element_class_set_static_metadata(c.g(), s1, s2, s3, s4)
+}
+
+//Set key with value as metadata in klass .
+//Parameters
+//key
+//the key to set
+//value
+//the value to set
+func (c *ElementClass) AddMetadata(key, value string) {
+	s1 := (*C.gchar)(C.CString(key))
+	defer C.free(unsafe.Pointer(s1))
+	s2 := (*C.gchar)(C.CString(value))
+	defer C.free(unsafe.Pointer(s2))
+	C.gst_element_class_add_metadata(c.g(), s1, s2)
+}
+
+//Set key with value as metadata in klass .
+//Same as gst_element_class_add_metadata(), but value must be a static string or an inlined string, as it will not be copied. (GStreamer plugins will be made resident once loaded, so this function can be used even from dynamically loaded plugins.)
+//Parameters
+//key
+//the key to set
+//value
+//the value to set
+func (c *ElementClass) AddStaticMetadata(key, value string) {
+	s1 := (*C.gchar)(C.CString(key))
+	defer C.free(unsafe.Pointer(s1))
+	s2 := (*C.gchar)(C.CString(value))
+	defer C.free(unsafe.Pointer(s2))
+	C.gst_element_class_add_static_metadata(c.g(), s1, s2)
 }

@@ -1,5 +1,5 @@
 **progress**
-19/90
+26/90
 ```
     #define 	GST_STATE()
     #define 	GST_STATE_GET_NEXT()
@@ -22,14 +22,14 @@
     #define 	GST_ELEMENT_WARNING()
     #define 	GST_ELEMENT_INFO()
     #define 	GST_ELEMENT_IS_LOCKED_STATE()
-    void 	gst_element_class_add_pad_template ()
-    void 	gst_element_class_add_static_pad_template ()
+Y   void 	gst_element_class_add_pad_template ()
+Y   void 	gst_element_class_add_static_pad_template ()
 Y   GstPadTemplate * 	gst_element_class_get_pad_template ()
-    GList * 	gst_element_class_get_pad_template_list ()
-    void 	gst_element_class_set_metadata ()
-    void 	gst_element_class_set_static_metadata ()
-    void 	gst_element_class_add_metadata ()
-    void 	gst_element_class_add_static_metadata ()
+Y   GList * 	gst_element_class_get_pad_template_list ()
+Y   void 	gst_element_class_set_metadata ()
+Y   void 	gst_element_class_set_static_metadata ()
+Y   void 	gst_element_class_add_metadata ()
+Y   void 	gst_element_class_add_static_metadata ()
 Y   gboolean 	gst_element_add_pad ()
     void 	gst_element_create_all_pads ()
     GstPad * 	gst_element_get_compatible_pad ()
