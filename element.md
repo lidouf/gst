@@ -21,7 +21,7 @@
     #define 	GST_ELEMENT_ERROR()
     #define 	GST_ELEMENT_WARNING()
     #define 	GST_ELEMENT_INFO()
-    #define 	GST_ELEMENT_IS_LOCKED_STATE()
+Y   #define 	GST_ELEMENT_IS_LOCKED_STATE()
 Y   void 	gst_element_class_add_pad_template ()
 Y   void 	gst_element_class_add_static_pad_template ()
 Y   GstPadTemplate * 	gst_element_class_get_pad_template ()

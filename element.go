@@ -86,6 +86,19 @@ const (
 	STATE_CHANGE_READY_TO_NULL     = StateChange(C.GST_STATE_CHANGE_READY_TO_NULL)
 )
 
+type ElementFlags C.GstElementFlags
+
+const (
+	ELEMENT_FLAG_LOCKED_STATE  = ElementFlags(C.GST_ELEMENT_FLAG_LOCKED_STATE)
+	ELEMENT_FLAG_SINK          = ElementFlags(C.GST_ELEMENT_FLAG_SINK)
+	ELEMENT_FLAG_SOURCE        = ElementFlags(C.GST_ELEMENT_FLAG_SOURCE)
+	ELEMENT_FLAG_PROVIDE_CLOCK = ElementFlags(C.GST_ELEMENT_FLAG_PROVIDE_CLOCK)
+	ELEMENT_FLAG_REQUIRE_CLOCK = ElementFlags(C.GST_ELEMENT_FLAG_REQUIRE_CLOCK)
+	ELEMENT_FLAG_INDEXABLE     = ElementFlags(C.GST_ELEMENT_FLAG_INDEXABLE)
+	/* padding */
+	ELEMENT_FLAG_LAST = ElementFlags(C.GST_ELEMENT_FLAG_LAST)
+)
+
 type Element struct {
 	GstObj
 }
@@ -264,6 +277,12 @@ func (c *ElementClass) GetMetadata(key string) string {
 	s := (*C.gchar)(C.CString(key))
 	defer C.free(unsafe.Pointer(s))
 	return C.GoString((*C.char)(C.gst_element_class_get_metadata(c.g(), s)))
+}
+
+//#define GST_ELEMENT_IS_LOCKED_STATE(elem)        (GST_OBJECT_FLAG_IS_SET(elem,GST_ELEMENT_FLAG_LOCKED_STATE))
+//Check if the element is in the locked state and therefore will ignore state changes from its parent object.
+func (e *Element) IS_LOCKED_STATE() bool {
+	return e.FlagIsSet(uint32(ELEMENT_FLAG_LOCKED_STATE))
 }
 
 //Adds a pad (link point) to element . pad 's parent will be set to element ; see gst_object_set_parent() for refcounting information.
