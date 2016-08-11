@@ -28,3 +28,11 @@ const (
 func (s SeekFlags) g() C.GstSeekFlags {
 	return (C.GstSeekFlags)(s)
 }
+
+type SeekType C.GstSeekType
+
+const (
+	SEEK_TYPE_NONE = SeekType(C.GST_SEEK_TYPE_NONE)
+	SEEK_TYPE_SET  = SeekType(C.GST_SEEK_TYPE_SET)
+	SEEK_TYPE_END  = SeekType(C.GST_SEEK_TYPE_END)
+)
