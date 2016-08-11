@@ -28,15 +28,18 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstBus              16/24
     GstCaps             14/65
     GstClock            1/49
+    GstContext          0/12
     GstControlBinding   3/6
-    GstElement          18/90
+    GstElement          66/90
     GstElementFactory   7/19
+    GstEvent            0/69
     GstFormat           0/7
     GstInfo             0/86
+    GstIterator         0/23
     GstMessage          8/88
     GstObject           29/41
     GstPad              7/180
-    GstPadTemplate      8/10
+    GstPadTemplate      10/10
     GstPipeline         13/13
     GstQuery            3/96
     GstSegment          0/19
