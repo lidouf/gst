@@ -209,6 +209,19 @@ func (e *Element) GetBus() *Bus {
 	return b
 }
 
+//Retrieves the factory that was used to create this element.
+//Returns
+//the GstElementFactory used for creating this element. no refcounting is needed.
+func (e *Element) GetFactory() *ElementFactory {
+	factory := C.gst_element_get_factory(e.g())
+	if factory == nil {
+		return nil
+	}
+	f := new(ElementFactory)
+	f.SetPtr(glib.Pointer(factory))
+	return f
+}
+
 func (e *Element) QueryPosition(format Format) (time.Duration, error) {
 	var pos C.gint64
 	ret := C.gst_element_query_position(e.g(), *(format.g()), &pos)

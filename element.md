@@ -1,5 +1,5 @@
 **progress**
-18/90
+19/90
 ```
     #define 	GST_STATE()
     #define 	GST_STATE_GET_NEXT()
@@ -63,7 +63,7 @@ Y   GstBus * 	gst_element_get_bus ()
     GstContext * 	gst_element_get_context ()
     GstContext * 	gst_element_get_context_unlocked ()
     GList * 	gst_element_get_contexts ()
-    GstElementFactory * 	gst_element_get_factory ()
+Y   GstElementFactory * 	gst_element_get_factory ()
     #define 	gst_element_set_name()
     #define 	gst_element_get_name()
     #define 	gst_element_set_parent()
