@@ -91,6 +91,16 @@ func (p PadPresence) String() string {
 	panic("Wrong value of PadPresence variable")
 }
 
+type PadLinkCheck C.GstPadLinkCheck
+
+const (
+	PAD_LINK_CHECK_NOTHING       = PadLinkCheck(C.GST_PAD_LINK_CHECK_NOTHING)
+	PAD_LINK_CHECK_HIERARCHY     = PadLinkCheck(C.GST_PAD_LINK_CHECK_HIERARCHY)
+	PAD_LINK_CHECK_TEMPLATE_CAPS = PadLinkCheck(C.GST_PAD_LINK_CHECK_TEMPLATE_CAPS)
+	PAD_LINK_CHECK_CAPS          = PadLinkCheck(C.GST_PAD_LINK_CHECK_CAPS)
+	PAD_LINK_CHECK_DEFAULT       = PadLinkCheck(C.GST_PAD_LINK_CHECK_DEFAULT)
+)
+
 type Pad struct {
 	GstObj
 }
