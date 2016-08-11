@@ -1,0 +1,27 @@
+**progress**
+0/23
+```
+    void 	(*GstIteratorCopyFunction) ()
+    GstIteratorResult 	(*GstIteratorNextFunction) ()
+    GstIteratorItem 	(*GstIteratorItemFunction) ()
+    void 	(*GstIteratorResyncFunction) ()
+    void 	(*GstIteratorFreeFunction) ()
+    void 	(*GstIteratorForeachFunction) ()
+    gboolean 	(*GstIteratorFoldFunction) ()
+    #define 	GST_ITERATOR()
+    #define 	GST_ITERATOR_LOCK()
+    #define 	GST_ITERATOR_COOKIE()
+    #define 	GST_ITERATOR_ORIG_COOKIE()
+    GstIterator * 	gst_iterator_new ()
+    GstIterator * 	gst_iterator_new_list ()
+    GstIterator * 	gst_iterator_new_single ()
+    GstIterator * 	gst_iterator_copy ()
+    void 	gst_iterator_free ()
+    GstIteratorResult 	gst_iterator_next ()
+    void 	gst_iterator_resync ()
+    void 	gst_iterator_push ()
+    GstIterator * 	gst_iterator_filter ()
+    GstIteratorResult 	gst_iterator_fold ()
+    GstIteratorResult 	gst_iterator_foreach ()
+    gboolean 	gst_iterator_find_custom ()
+```
