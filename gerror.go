@@ -1,0 +1,107 @@
+//GstGError — Categorized error messages
+package gst
+
+/*
+#include <stdlib.h>
+#include <gst/gst.h>
+*/
+import "C"
+
+import (
+	//"errors"
+	"github.com/lidouf/glib"
+	//"time"
+	//"unsafe"
+)
+
+type CoreError C.GstCoreError
+
+const (
+	CORE_ERROR_FAILED          = CoreError(C.GST_CORE_ERROR_FAILED)
+	CORE_ERROR_TOO_LAZY        = CoreError(C.GST_CORE_ERROR_TOO_LAZY)
+	CORE_ERROR_NOT_IMPLEMENTED = CoreError(C.GST_CORE_ERROR_NOT_IMPLEMENTED)
+	CORE_ERROR_STATE_CHANGE    = CoreError(C.GST_CORE_ERROR_STATE_CHANGE)
+	CORE_ERROR_PAD             = CoreError(C.GST_CORE_ERROR_PAD)
+	CORE_ERROR_THREAD          = CoreError(C.GST_CORE_ERROR_THREAD)
+	CORE_ERROR_NEGOTIATION     = CoreError(C.GST_CORE_ERROR_NEGOTIATION)
+	CORE_ERROR_EVENT           = CoreError(C.GST_CORE_ERROR_EVENT)
+	CORE_ERROR_SEEK            = CoreError(C.GST_CORE_ERROR_SEEK)
+	CORE_ERROR_CAPS            = CoreError(C.GST_CORE_ERROR_CAPS)
+	CORE_ERROR_TAG             = CoreError(C.GST_CORE_ERROR_TAG)
+	CORE_ERROR_MISSING_PLUGIN  = CoreError(C.GST_CORE_ERROR_MISSING_PLUGIN)
+	CORE_ERROR_CLOCK           = CoreError(C.GST_CORE_ERROR_CLOCK)
+	CORE_ERROR_DISABLED        = CoreError(C.GST_CORE_ERROR_DISABLED)
+	CORE_ERROR_NUM_ERRORS      = CoreError(C.GST_CORE_ERROR_NUM_ERRORS)
+)
+
+type LibraryError C.GstLibraryError
+
+const (
+	LIBRARY_ERROR_FAILED     = LibraryError(C.GST_LIBRARY_ERROR_FAILED)
+	LIBRARY_ERROR_TOO_LAZY   = LibraryError(C.GST_LIBRARY_ERROR_TOO_LAZY)
+	LIBRARY_ERROR_INIT       = LibraryError(C.GST_LIBRARY_ERROR_INIT)
+	LIBRARY_ERROR_SHUTDOWN   = LibraryError(C.GST_LIBRARY_ERROR_SHUTDOWN)
+	LIBRARY_ERROR_SETTINGS   = LibraryError(C.GST_LIBRARY_ERROR_SETTINGS)
+	LIBRARY_ERROR_ENCODE     = LibraryError(C.GST_LIBRARY_ERROR_ENCODE)
+	LIBRARY_ERROR_NUM_ERRORS = LibraryError(C.GST_LIBRARY_ERROR_NUM_ERRORS)
+)
+
+type ResourceError C.GstResourceError
+
+const (
+	RESOURCE_ERROR_FAILED          = StreamError(C.GST_RESOURCE_ERROR_FAILED)
+	RESOURCE_ERROR_TOO_LAZY        = StreamError(C.GST_RESOURCE_ERROR_TOO_LAZY)
+	RESOURCE_ERROR_NOT_FOUND       = StreamError(C.GST_RESOURCE_ERROR_NOT_FOUND)
+	RESOURCE_ERROR_BUSY            = StreamError(C.GST_RESOURCE_ERROR_BUSY)
+	RESOURCE_ERROR_OPEN_READ       = StreamError(C.GST_RESOURCE_ERROR_OPEN_READ)
+	RESOURCE_ERROR_OPEN_WRITE      = StreamError(C.GST_RESOURCE_ERROR_OPEN_WRITE)
+	RESOURCE_ERROR_OPEN_READ_WRITE = StreamError(C.GST_RESOURCE_ERROR_OPEN_READ_WRITE)
+	RESOURCE_ERROR_CLOSE           = StreamError(C.GST_RESOURCE_ERROR_CLOSE)
+	RESOURCE_ERROR_READ            = StreamError(C.GST_RESOURCE_ERROR_READ)
+	RESOURCE_ERROR_WRITE           = StreamError(C.GST_RESOURCE_ERROR_WRITE)
+	RESOURCE_ERROR_SEEK            = StreamError(C.GST_RESOURCE_ERROR_SEEK)
+	RESOURCE_ERROR_SYNC            = StreamError(C.GST_RESOURCE_ERROR_SYNC)
+	RESOURCE_ERROR_SETTINGS        = StreamError(C.GST_RESOURCE_ERROR_SETTINGS)
+	RESOURCE_ERROR_NO_SPACE_LEFT   = StreamError(C.GST_RESOURCE_ERROR_NO_SPACE_LEFT)
+	RESOURCE_ERROR_NOT_AUTHORIZED  = StreamError(C.GST_RESOURCE_ERROR_NOT_AUTHORIZED)
+	RESOURCE_ERROR_NUM_ERRORS      = StreamError(C.GST_RESOURCE_ERROR_NUM_ERRORS)
+)
+
+type StreamError C.GstStreamError
+
+const (
+	STREAM_ERROR_FAILED          = StreamError(C.GST_STREAM_ERROR_FAILED)
+	STREAM_ERROR_TOO_LAZY        = StreamError(C.GST_STREAM_ERROR_TOO_LAZY)
+	STREAM_ERROR_NOT_IMPLEMENTED = StreamError(C.GST_STREAM_ERROR_NOT_IMPLEMENTED)
+	STREAM_ERROR_TYPE_NOT_FOUND  = StreamError(C.GST_STREAM_ERROR_TYPE_NOT_FOUND)
+	STREAM_ERROR_WRONG_TYPE      = StreamError(C.GST_STREAM_ERROR_WRONG_TYPE)
+	STREAM_ERROR_CODEC_NOT_FOUND = StreamError(C.GST_STREAM_ERROR_CODEC_NOT_FOUND)
+	STREAM_ERROR_DECODE          = StreamError(C.GST_STREAM_ERROR_DECODE)
+	STREAM_ERROR_ENCODE          = StreamError(C.GST_STREAM_ERROR_ENCODE)
+	STREAM_ERROR_DEMUX           = StreamError(C.GST_STREAM_ERROR_DEMUX)
+	STREAM_ERROR_MUX             = StreamError(C.GST_STREAM_ERROR_MUX)
+	STREAM_ERROR_FORMAT          = StreamError(C.GST_STREAM_ERROR_FORMAT)
+	STREAM_ERROR_DECRYPT         = StreamError(C.GST_STREAM_ERROR_DECRYPT)
+	STREAM_ERROR_DECRYPT_NOKEY   = StreamError(C.GST_STREAM_ERROR_DECRYPT_NOKEY)
+	STREAM_ERROR_NUM_ERRORS      = StreamError(C.GST_STREAM_ERROR_NUM_ERRORS)
+)
+
+func GetMessage(domain glib.Quark, code int) string {
+	return C.GoString((*C.char)(C.gst_error_get_message(C.GQuark(domain), C.gint(code))))
+}
+
+func StreamErrorQuark() glib.Quark {
+	return glib.Quark(C.gst_stream_error_quark())
+}
+
+func CoreErrorQuark() glib.Quark {
+	return glib.Quark(C.gst_core_error_quark())
+}
+
+func ResourceErrorQuark() glib.Quark {
+	return glib.Quark(C.gst_resource_error_quark())
+}
+
+func LibraryErrorQuark() glib.Quark {
+	return glib.Quark(C.gst_library_error_quark())
+}
