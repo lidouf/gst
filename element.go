@@ -4,14 +4,32 @@ package gst
 #include <stdlib.h>
 #include <gst/gst.h>
 #include "gst.go.h"
-static GstPad* get_active_switch_pad(GstElement *switcher) {
+static inline
+GstPad* get_active_switch_pad(GstElement *switcher) {
 	GstPad* active_pad;
 	g_object_get(G_OBJECT(switcher), "active-pad", &active_pad, NULL);
 	return active_pad;
 }
+static inline
 GstElementClass* get_class_by_element(GstElement *element) {
 	return GST_ELEMENT_GET_CLASS(element);
 }
+static inline
+GstState CALL_MACRO_GST_STATE_GET_NEXT(GstState cur, GstState pending) {
+	return GST_STATE_GET_NEXT(cur, pending);
+}
+//static inline
+//CALL_MACRO_GST_ELEMENT_ERROR(GstElement *el, const gchar *domain, const gchar *code, const gchar *text, const gchar *debug) {
+//	GST_ELEMENT_ERROR(el, domain, code, text, debug);
+//}
+//static inline
+//CALL_MACRO_GST_ELEMENT_WARNING(GstElement *el, GQuark domain, gint code, gchar *text, gchar *debug) {
+//	GST_ELEMENT_WARNING(el, domain, code, text, debug);
+//}
+//static inline
+//CALL_MACRO_GST_ELEMENT_INFO(GstElement *el, GQuark domain, gint code, gchar *text, gchar *debug) {
+//	GST_ELEMENT_INFO(el, domain, code, text, debug);
+//}
 */
 import "C"
 
@@ -57,6 +75,26 @@ func (s State) String() string {
 //a string with the name of the state.
 func (s State) GetName() string {
 	return C.GoString((*C.char)(C.gst_element_state_get_name(C.GstState(s))))
+}
+
+//Given a current state cur and a target state pending , calculate the next (intermediate) GstState.
+func (s State) GetNext(pending State) State {
+	return State(C.CALL_MACRO_GST_STATE_GET_NEXT(C.GstState(s), C.GstState(pending)))
+}
+
+//Given a current state cur and a next state next , calculate the associated GstStateChange transition.
+func (s State) Transition(next State) StateChange {
+	return StateChange(((C.GstState(s)) << 3) | (C.GstState(next)))
+}
+
+//Given a state transition trans , extract the current GstState.
+func (s State) TransitionCurrent() State {
+	return State((C.GstState(s)) >> 3)
+}
+
+//Given a state transition trans , extract the next GstState.
+func (s State) TransitionNext() State {
+	return State((C.GstState(s)) & 0x7)
 }
 
 type StateChangeReturn C.GstStateChangeReturn
@@ -278,6 +316,95 @@ func (c *ElementClass) GetMetadata(key string) string {
 	defer C.free(unsafe.Pointer(s))
 	return C.GoString((*C.char)(C.gst_element_class_get_metadata(c.g(), s)))
 }
+
+//This macro returns the current GstState of the element.
+func (e *Element) CurrentState() State {
+	return State(C.GstState(e.g().current_state))
+}
+
+//This macro returns the next GstState of the element.
+func (e *Element) NextState() State {
+	return State(C.GstState(e.g().next_state))
+}
+
+//This macro returns the currently pending GstState of the element.
+func (e *Element) PendingState() State {
+	return State(C.GstState(e.g().pending_state))
+}
+
+//This macro returns the last GstStateChangeReturn value.
+func (e *Element) LastReturn() StateChangeReturn {
+	return StateChangeReturn(C.GstStateChangeReturn(e.g().last_return))
+}
+
+//This macro returns the target GstState of the element.
+func (e *Element) TargetState() State {
+	return State(C.GstState(e.g().target_state))
+}
+
+//Get the pads of this elements.
+func (e *Element) GetPads() *glib.List {
+	return glib.WrapList(uintptr(unsafe.Pointer(e.g().pads)))
+}
+
+//Utility function that elements can use in case they encountered a fatal data processing error.
+//The pipeline will post an error message and the application will be requested to stop further media processing.
+//Parameters
+//domain
+//like CORE, LIBRARY, RESOURCE or STREAM (see gstreamer-GstGError)
+//code
+//error code defined for that domain (see gstreamer-GstGError)
+//text
+//the message to display (format string and args enclosed in parentheses)
+//debug
+//debugging information for the message (format string and args enclosed in parentheses)
+//func (e *Element) ERROR(domain string, code string, text, debug string) {
+//	s1 := (*C.gchar)(C.CString(text))
+//	defer C.free(unsafe.Pointer(s1))
+//	s2 := (*C.gchar)(C.CString(debug))
+//	defer C.free(unsafe.Pointer(s2))
+//	s3 := (*C.gchar)(C.CString(domain))
+//	defer C.free(unsafe.Pointer(s3))
+//	C.CALL_MACRO_GST_ELEMENT_ERROR(e.g(), s3, C.gint(code), s1, s2)
+//}
+
+//Utility function that elements can use in case they encountered a non-fatal data processing problem.
+//The pipeline will post a warning message and the application will be informed.
+//Parameters
+//domain
+//like CORE, LIBRARY, RESOURCE or STREAM (see gstreamer-GstGError)
+//code
+//error code defined for that domain (see gstreamer-GstGError)
+//text
+//the message to display (format string and args enclosed in parentheses)
+//debug
+//debugging information for the message (format string and args enclosed in parentheses)
+//func (e *Element) WARNING(domain glib.Quark, code int, text, debug string) {
+//	s1 := (*C.gchar)(C.CString(text))
+//	defer C.free(unsafe.Pointer(s1))
+//	s2 := (*C.gchar)(C.CString(debug))
+//	defer C.free(unsafe.Pointer(s2))
+//	C.CALL_MACRO_GST_ELEMENT_WARNING(e.g(), C.GQuark(domain), C.gint(code), s1, s2)
+//}
+
+//Utility function that elements can use in case they want to inform the application of something noteworthy that is not an error.
+//The pipeline will post a info message and the application will be informed.
+//Parameters
+//domain
+//like CORE, LIBRARY, RESOURCE or STREAM (see gstreamer-GstGError)
+//code
+//error code defined for that domain (see gstreamer-GstGError)
+//text
+//the message to display (format string and args enclosed in parentheses)
+//debug
+//debugging information for the message (format string and args enclosed in parentheses)
+//func (e *Element) INFO(domain glib.Quark, code int, text, debug string) {
+//	s1 := (*C.gchar)(C.CString(text))
+//	defer C.free(unsafe.Pointer(s1))
+//	s2 := (*C.gchar)(C.CString(debug))
+//	defer C.free(unsafe.Pointer(s2))
+//	C.CALL_MACRO_GST_ELEMENT_INFO(e.g(), C.GQuark(domain), C.gint(code), s1, s2)
+//}
 
 //#define GST_ELEMENT_IS_LOCKED_STATE(elem)        (GST_OBJECT_FLAG_IS_SET(elem,GST_ELEMENT_FLAG_LOCKED_STATE))
 //Check if the element is in the locked state and therefore will ignore state changes from its parent object.

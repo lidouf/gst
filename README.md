@@ -30,10 +30,11 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstClock            1/49
     GstContext          0/12
     GstControlBinding   3/6
-    GstElement          66/90
+    GstElement          82/90
     GstElementFactory   7/19
     GstEvent            0/69
     GstFormat           0/7
+    GstGError           1/1
     GstInfo             0/86
     GstIterator         0/23
     GstMessage          8/88
