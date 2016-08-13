@@ -929,13 +929,7 @@ func (e *Element) GetState(timeout_ns int64) (state, pending State, ret StateCha
 //Returns
 //TRUE if the state was changed, FALSE if bad parameters were given or the elements state-locking needed no change.
 func (e *Element) SetLockedState(lockedState bool) bool {
-	var s int
-	if lockedState {
-		s = 1
-	} else {
-		s = 0
-	}
-	return C.gst_element_set_locked_state(e.g(), C.gboolean(s)) != 0
+	return C.gst_element_set_locked_state(e.g(), gBoolean(lockedState)) != 0
 }
 
 //Checks if the state of an element is locked. If the state of an element is locked, state changes of the parent don't affect the element.

@@ -75,13 +75,7 @@ func SegtrapIsEnabled() bool {
 }
 
 func SegtrapSetEnabled(enabled bool) {
-	var e int
-	if enabled {
-		e = 1
-	} else {
-		e = 0
-	}
-	C.gst_segtrap_set_enabled(C.gboolean(e))
+	C.gst_segtrap_set_enabled(gBoolean(enabled))
 }
 
 func RegistryForkIsEnabled() bool {
@@ -89,13 +83,7 @@ func RegistryForkIsEnabled() bool {
 }
 
 func RegistryForkSetEnabled(enabled bool) {
-	var e int
-	if enabled {
-		e = 1
-	} else {
-		e = 0
-	}
-	C.gst_registry_fork_set_enabled(C.gboolean(e))
+	C.gst_registry_fork_set_enabled(gBoolean(enabled))
 }
 
 func UpdateRegistry() bool {

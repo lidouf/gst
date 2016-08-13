@@ -233,28 +233,16 @@ func (o *GstObj) HasActiveControlBindings() bool {
 This function is used to disable all controlled properties of the object for some time, i.e. gst_object_sync_values() will do nothing.
 */
 func (o *GstObj) SetControlBindingsDisabled(disabled bool) {
-	var d int
-	if disabled {
-		d = 1
-	} else {
-		d = 0
-	}
-	C.gst_object_set_control_bindings_disabled(o.g(), C.gboolean(d))
+	C.gst_object_set_control_bindings_disabled(o.g(), gBoolean(disabled))
 }
 
 /**
 This function is used to disable the control bindings on a property for some time, i.e. gst_object_sync_values() will do nothing for the property.
 */
 func (o *GstObj) SetControlBindingDisabled(propertyName string, disabled bool) {
-	var d int
-	if disabled {
-		d = 1
-	} else {
-		d = 0
-	}
 	s := (*C.gchar)(C.CString(propertyName))
 	defer C.free(unsafe.Pointer(s))
-	C.gst_object_set_control_binding_disabled(o.g(), s, C.gboolean(d))
+	C.gst_object_set_control_binding_disabled(o.g(), s, gBoolean(disabled))
 }
 
 /**

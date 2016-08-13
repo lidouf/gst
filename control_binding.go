@@ -35,13 +35,7 @@ func (c *ControlBinding) SyncValues(o *GstObj, timestamp, lastSync ClockTime) bo
 
 //This function is used to disable a control binding for some time, i.e. gst_object_sync_values() will do nothing.
 func (c *ControlBinding) SetDisabled(disabled bool) {
-	var d int
-	if disabled {
-		d = 1
-	} else {
-		d = 0
-	}
-	C.gst_control_binding_set_disabled(c.g(), C.gboolean(d))
+	C.gst_control_binding_set_disabled(c.g(), gBoolean(disabled))
 }
 
 //Check if the control binding is disabled.
