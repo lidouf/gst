@@ -24,7 +24,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
 ### PROGRESS
 #### GStreamer
     Gst                 11/12
-    GstBin              6/21
+    GstBin              21/21
     GstBuffer           0/71
     GstBufferList       0/15
     GstBus              16/24
