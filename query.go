@@ -1,3 +1,4 @@
+//GstQuery — Provide functions to create queries, and to set and parse values in them.
 package gst
 
 /*
@@ -6,6 +7,7 @@ package gst
 import "C"
 
 import (
+	"github.com/lidouf/glib"
 	"time"
 )
 
@@ -17,10 +19,13 @@ const (
 	QUERY_TYPE_SERIALIZED
 )
 
-type Query C.GstQuery
+//type Query C.GstQuery
+type Query struct {
+	glib.Object
+}
 
 func (q *Query) g() *C.GstQuery {
-	return (*C.GstQuery)(q)
+	return (*C.GstQuery)(q.GetPtr())
 }
 
 func (q *Query) AsQuery() *Query {
@@ -40,7 +45,7 @@ func (q *Query) ParseSeeking(format *Format) (bool, time.Duration, time.Duration
 }
 
 func (q *Query) Unref() {
-	C.gst_query_unref((*C.GstQuery)(q))
+	C.gst_query_unref(q.g())
 }
 
 func NewQuerySeeking(format Format) *Query {
@@ -48,5 +53,7 @@ func NewQuerySeeking(format Format) *Query {
 	if seeking == nil {
 		return nil
 	}
-	return (*Query)(seeking)
+	q := new(Query)
+	q.SetPtr(glib.Pointer(seeking))
+	return q
 }

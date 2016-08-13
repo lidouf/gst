@@ -16,14 +16,19 @@ import (
 	"unsafe"
 )
 
-type Caps C.GstCaps
+//type Caps C.GstCaps
+type Caps struct {
+	glib.Object
+}
 
 func (c *Caps) g() *C.GstCaps {
-	return (*C.GstCaps)(c)
+	return (*C.GstCaps)(c.GetPtr())
 }
 
 func (c *Caps) Ref() *Caps {
-	return (*Caps)(C.gst_caps_ref(c.g()))
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_caps_ref(c.g())))
+	return r
 }
 
 func (c *Caps) Unref() {
@@ -69,11 +74,15 @@ func (c *Caps) GetCodecDescription() string {
 }
 
 func NewCapsAny() *Caps {
-	return (*Caps)(C.gst_caps_new_any())
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_caps_new_any()))
+	return r
 }
 
 func NewCapsEmpty() *Caps {
-	return (*Caps)(C.gst_caps_new_empty())
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_caps_new_empty()))
+	return r
 }
 
 func NewCapsSimple(media_type string, fields glib.Params) *Caps {
@@ -85,24 +94,33 @@ func NewCapsSimple(media_type string, fields glib.Params) *Caps {
 func CapsFromString(s string) *Caps {
 	cs := (*C.gchar)(C.CString(s))
 	defer C.free(unsafe.Pointer(cs))
-	return (*Caps)(C.gst_caps_from_string(cs))
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_caps_from_string(cs)))
+	return r
 }
 
-type StaticCaps C.GstStaticCaps
+//type StaticCaps C.GstStaticCaps
+type StaticCaps struct {
+	glib.Object
+}
 
 func (c *StaticCaps) g() *C.GstStaticCaps {
-	return (*C.GstStaticCaps)(c)
+	return (*C.GstStaticCaps)(c.GetPtr())
 }
 
 func (c *StaticCaps) Caps() *Caps {
 	if c.g().caps == nil {
 		return nil
 	}
-	return (*Caps)(c.g().caps)
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(c.g().caps))
+	return r
 }
 
 func (c *StaticCaps) Get() *Caps {
-	return (*Caps)(C.gst_static_caps_get(c.g()))
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_static_caps_get(c.g())))
+	return r
 }
 
 func (c *StaticCaps) String() string {

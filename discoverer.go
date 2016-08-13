@@ -53,7 +53,9 @@ func (d *DiscovererStreamInfo) g() *C.GstDiscovererStreamInfo {
 }
 
 func (d *DiscovererStreamInfo) GetCaps() *Caps {
-	return (*Caps)(C.gst_discoverer_stream_info_get_caps(d.g()))
+	r := new(Caps)
+	r.SetPtr(glib.Pointer(C.gst_discoverer_stream_info_get_caps(d.g())))
+	return r
 }
 
 func (d *DiscovererStreamInfo) GetTags() *TagList {

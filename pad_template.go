@@ -42,10 +42,12 @@ func NewPadTemplate(name string, direction PadDirection, presence PadPresence, c
 	return pt
 }
 
-type StaticPadTemplate C.GstStaticPadTemplate
+type StaticPadTemplate struct {
+	GstObj
+}
 
 func (t *StaticPadTemplate) g() *C.GstStaticPadTemplate {
-	return (*C.GstStaticPadTemplate)(t)
+	return (*C.GstStaticPadTemplate)(t.GetPtr())
 }
 
 func (t *StaticPadTemplate) Get() *PadTemplate {
@@ -69,5 +71,7 @@ func (t *StaticPadTemplate) GetPresence() PadPresence {
 }
 
 func (t *StaticPadTemplate) GetStaticCaps() *StaticCaps {
-	return (*StaticCaps)(&t.g().static_caps)
+	r := new(StaticCaps)
+	r.SetPtr(glib.Pointer(&t.g().static_caps))
+	return r
 }
