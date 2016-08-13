@@ -25,6 +25,8 @@ for video because of small bitrate of this stream and big buffer in you browser.
 #### GStreamer
     Gst                 11/12
     GstBin              6/21
+    GstBuffer           0/71
+    GstBufferList       0/15
     GstBus              16/24
     GstCaps             14/65
     GstClock            1/49
@@ -39,7 +41,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstIterator         0/23
     GstMessage          8/88
     GstObject           29/41
-    GstPad              7/180
+    GstPad              120/180
     GstPadTemplate      10/10
     GstPipeline         13/13
     GstQuery            3/96
