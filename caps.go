@@ -21,6 +21,16 @@ type Caps struct {
 	glib.Object
 }
 
+func (c *Caps) Type() glib.Type {
+	return glib.TypeFromName("GstCaps")
+}
+
+func (c *Caps) Value() *glib.Value {
+	v := glib.NewValue(c.Type())
+	C.gst_value_set_caps(v2g(v), c.g())
+	return v
+}
+
 func (c *Caps) g() *C.GstCaps {
 	return (*C.GstCaps)(c.GetPtr())
 }
