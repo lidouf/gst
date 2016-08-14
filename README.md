@@ -48,6 +48,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstSegment          0/19
     GstStructure        3/69
     GstTagList          2/66
+    GstValue            11/89
 #### gst-plugins-base-libs
     GstDiscoverer       20/54
     GstVideoOverlay     1/7

@@ -40,104 +40,11 @@ Fields _parse_struct(GstStructure *s) {
 import "C"
 
 import (
-	"fmt"
 	"os"
 	"unsafe"
 
 	"github.com/lidouf/glib"
 )
-
-func v2g(v *glib.Value) *C.GValue {
-	return (*C.GValue)(unsafe.Pointer(v))
-}
-
-func g2v(v *C.GValue) *glib.Value {
-	return (*glib.Value)(unsafe.Pointer(v))
-}
-
-type Fourcc uint32
-
-func (f Fourcc) Type() glib.Type {
-	return glib.TYPE_UINT
-}
-
-func (f Fourcc) Value() *glib.Value {
-	return glib.ValueOf(f)
-}
-
-func (f Fourcc) String() string {
-	buf := make([]byte, 4)
-	buf[0] = byte(f)
-	buf[1] = byte(f >> 8)
-	buf[2] = byte(f >> 16)
-	buf[3] = byte(f >> 32)
-	return string(buf)
-}
-
-func MakeFourcc(a, b, c, d byte) Fourcc {
-	return Fourcc(uint32(a) | uint32(b)<<8 | uint32(c)<<16 | uint32(d)<<24)
-}
-
-func StrFourcc(s string) Fourcc {
-	if len(s) != 4 {
-		panic("Fourcc string length != 4")
-	}
-	return MakeFourcc(s[0], s[1], s[2], s[3])
-}
-
-func ValueFourcc(v *glib.Value) Fourcc {
-	return Fourcc(v.GetUint32())
-}
-
-type IntRange struct {
-	Start, End int
-}
-
-func (r *IntRange) Type() glib.Type {
-	return TYPE_INT_RANGE
-}
-
-func (r *IntRange) Value() *glib.Value {
-	v := glib.NewValue(r.Type())
-	C.gst_value_set_int_range(v2g(v), C.gint(r.Start), C.gint(r.End))
-	return v
-}
-
-func (r *IntRange) String() string {
-	return fmt.Sprintf("[%d,%d]", r.Start, r.End)
-}
-
-func ValueRange(v *glib.Value) *IntRange {
-	return &IntRange{
-		int(C.gst_value_get_int_range_min(v2g(v))),
-		int(C.gst_value_get_int_range_max(v2g(v))),
-	}
-}
-
-type Fraction struct {
-	Numer, Denom int
-}
-
-func (f *Fraction) Type() glib.Type {
-	return TYPE_FRACTION
-}
-
-func (f *Fraction) Value() *glib.Value {
-	v := glib.NewValue(f.Type())
-	C.gst_value_set_fraction(v2g(v), C.gint(f.Numer), C.gint(f.Denom))
-	return v
-}
-
-func (r *Fraction) String() string {
-	return fmt.Sprintf("%d/%d", r.Numer, r.Denom)
-}
-
-func ValueFraction(v *glib.Value) *Fraction {
-	return &Fraction{
-		int(C.gst_value_get_fraction_numerator(v2g(v))),
-		int(C.gst_value_get_fraction_denominator(v2g(v))),
-	}
-}
 
 var TYPE_FOURCC, TYPE_INT_RANGE, TYPE_FRACTION glib.Type
 
