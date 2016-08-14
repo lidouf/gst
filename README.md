@@ -39,7 +39,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstGError           1/1
     GstInfo             0/86
     GstIterator         0/23
-    GstMessage          8/88
+    GstMessage          9/88
     GstObject           29/41
     GstPad              120/180
     GstPadTemplate      10/10

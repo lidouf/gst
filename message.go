@@ -142,6 +142,20 @@ func (m *Message) GetSrc() *GstObj {
 	return src
 }
 
+//Extracts the buffering percent from the GstMessage. see also gst_message_new_buffering().
+//
+//MT safe.
+//Parameters
+//message
+//A valid GstMessage of type GST_MESSAGE_BUFFERING.
+//percent
+//Return location for the percent.
+func (m *Message) ParseBuffering() int {
+	var percent C.gint
+	C.gst_message_parse_buffering(m.g(), &percent)
+	return int(percent)
+}
+
 func (m *Message) ParseError() (err *glib.Error, debug string) {
 	var d *C.gchar
 	var e, ret_e *C.GError
