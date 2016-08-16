@@ -1,5 +1,5 @@
 **progress**
-0/69
+2/69
 ```
     #define 	GST_EVENT_MAKE_TYPE()
     #define 	GST_EVENT_TYPE()
@@ -50,12 +50,12 @@
     void 	gst_event_parse_buffer_size ()
     GstEvent * 	gst_event_new_qos ()
     void 	gst_event_parse_qos ()
-    GstEvent * 	gst_event_new_seek ()
+1   GstEvent * 	gst_event_new_seek ()
     void 	gst_event_parse_seek ()
     GstEvent * 	gst_event_new_navigation ()
     GstEvent * 	gst_event_new_latency ()
     void 	gst_event_parse_latency ()
-    GstEvent * 	gst_event_new_step ()
+1   GstEvent * 	gst_event_new_step ()
     void 	gst_event_parse_step ()
     GstEvent * 	gst_event_new_sink_message ()
     void 	gst_event_parse_sink_message ()
