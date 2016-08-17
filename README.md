@@ -34,7 +34,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstControlBinding   3/6
     GstElement          82/90
     GstElementFactory   7/19
-    GstEvent            2/69
+    GstEvent            66/69
     GstFormat           0/7
     GstGError           1/1
     GstInfo             0/86
@@ -48,6 +48,7 @@ for video because of small bitrate of this stream and big buffer in you browser.
     GstSegment          0/19
     GstStructure        3/69
     GstTagList          2/66
+    GstToc              0/36
     GstValue            11/89
 #### gst-plugins-base-libs
     GstDiscoverer       20/54
