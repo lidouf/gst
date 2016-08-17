@@ -106,10 +106,13 @@ func (t MessageType) String() string {
 	panic("Unknown value of gst.MessageType")
 }
 
-type Message C.GstMessage
+//type Message C.GstMessage
+type Message struct {
+	glib.Object
+}
 
 func (m *Message) g() *C.GstMessage {
-	return (*C.GstMessage)(m)
+	return (*C.GstMessage)(m.GetPtr())
 }
 
 func (m *Message) Type() glib.Type {
@@ -117,7 +120,9 @@ func (m *Message) Type() glib.Type {
 }
 
 func (m *Message) Ref() *Message {
-	return (*Message)(C.gst_message_ref(m.g()))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_message_ref(m.g())))
+	return r
 }
 
 func (m *Message) Unref() {
@@ -125,7 +130,7 @@ func (m *Message) Unref() {
 }
 
 func (m *Message) GetType() MessageType {
-	return MessageType(m._type)
+	return MessageType(m.g()._type)
 }
 
 func (m *Message) GetStructure() (string, glib.Params) {
@@ -138,7 +143,7 @@ func (m *Message) GetStructure() (string, glib.Params) {
 
 func (m *Message) GetSrc() *GstObj {
 	src := new(GstObj)
-	src.SetPtr(glib.Pointer(m.src))
+	src.SetPtr(glib.Pointer(m.g().src))
 	return src
 }
 
@@ -177,5 +182,7 @@ func (m *Message) ParseStateChanged() (oldState, newState, pendingState State) {
 }
 
 func NewApplicationMessage(o *GstObj, structure *Structure) *Message {
-	return (*Message)(C.gst_message_new_application(o.g(), structure.g()))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_message_new_application(o.g(), structure.g())))
+	return r
 }

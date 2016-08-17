@@ -119,7 +119,9 @@ func (d *DiscovererInfo) GetResult() DiscovererResult {
 }
 
 func (d *DiscovererInfo) GetMisc() *Structure {
-	return (*Structure)(C.gst_discoverer_info_get_misc(d.g()))
+	r := new(Structure)
+	r.SetPtr(glib.Pointer(C.gst_discoverer_info_get_misc(d.g())))
+	return r
 }
 
 func (d *DiscovererInfo) GetDuration() ClockTime {
@@ -127,7 +129,9 @@ func (d *DiscovererInfo) GetDuration() ClockTime {
 }
 
 func (d *DiscovererInfo) GetTags() *TagList {
-	return (*TagList)(C.gst_discoverer_info_get_tags(d.g()))
+	r := new(TagList)
+	r.SetPtr(glib.Pointer(C.gst_discoverer_info_get_tags(d.g())))
+	return r
 }
 
 func (d *DiscovererInfo) GetSeekable() bool {

@@ -5,6 +5,10 @@ package gst
 */
 import "C"
 
+import (
+	"github.com/lidouf/glib"
+)
+
 type SeekFlags C.GstSeekFlags
 
 const (
@@ -36,3 +40,15 @@ const (
 	SEEK_TYPE_SET  = SeekType(C.GST_SEEK_TYPE_SET)
 	SEEK_TYPE_END  = SeekType(C.GST_SEEK_TYPE_END)
 )
+
+type Segment struct {
+	glib.Object
+}
+
+func (s *Segment) Type() glib.Type {
+	return glib.TypeFromName("GstSegment")
+}
+
+func (s *Segment) g() *C.GstSegment {
+	return (*C.GstSegment)(s.GetPtr())
+}

@@ -58,7 +58,9 @@ func (c *Caps) GetSize() int {
 }
 
 func (c *Caps) GetStructure(index uint) *Structure {
-	return (*Structure)(C.gst_caps_get_structure(c.g(), C.guint(index)))
+	r := new(Structure)
+	r.SetPtr(glib.Pointer(C.gst_caps_get_structure(c.g(), C.guint(index))))
+	return r
 }
 
 func (c *Caps) String() string {

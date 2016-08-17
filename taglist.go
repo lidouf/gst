@@ -89,10 +89,13 @@ func (t *TagScope) g() *C.GstTagScope {
 	return (*C.GstTagScope)(t)
 }
 
-type TagList C.GstTagList
+//type TagList C.GstTagList
+type TagList struct {
+	glib.Object
+}
 
 func (t *TagList) g() *C.GstTagList {
-	return (*C.GstTagList)(t)
+	return (*C.GstTagList)(t.GetPtr())
 }
 
 func (t *TagList) Type() glib.Type {

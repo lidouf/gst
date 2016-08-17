@@ -10,10 +10,13 @@ import (
 	"github.com/lidouf/glib"
 )
 
-type Structure C.GstStructure
+//type Structure C.GstStructure
+type Structure struct {
+	glib.Object
+}
 
 func (s *Structure) g() *C.GstStructure {
-	return (*C.GstStructure)(s)
+	return (*C.GstStructure)(s.GetPtr())
 }
 
 func (s *Structure) GetName() string {
@@ -35,5 +38,7 @@ func MakeStructure(name string, fields *glib.Params) *Structure {
 	} else {
 		f = *fields
 	}
-	return (*Structure)(makeGstStructure(name, f))
+	r := new(Structure)
+	r.SetPtr(glib.Pointer(makeGstStructure(name, f)))
+	return r
 }

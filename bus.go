@@ -31,24 +31,33 @@ func (b *Bus) HavePending() bool {
 }
 
 func (b *Bus) Peek() *Message {
-	return (*Message)(C.gst_bus_peek(b.g()))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_peek(b.g())))
+	return r
 }
 
 func (b *Bus) Pop() *Message {
-	return (*Message)(C.gst_bus_pop(b.g()))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_pop(b.g())))
+	return r
 }
 
 func (b *Bus) PopFiltered(types MessageType) *Message {
-	return (*Message)(C.gst_bus_pop_filtered(b.g(), C.GstMessageType(types)))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_pop_filtered(b.g(), C.GstMessageType(types))))
+	return r
 }
 
 func (b *Bus) TimedPop(timeout uint64) *Message {
-	return (*Message)(C.gst_bus_timed_pop(b.g(), C.GstClockTime(timeout)))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_timed_pop(b.g(), C.GstClockTime(timeout))))
+	return r
 }
 
 func (b *Bus) TimedPopFiltered(timeout uint64, types MessageType) *Message {
-	return (*Message)(C.gst_bus_timed_pop_filtered(b.g(),
-		C.GstClockTime(timeout), C.GstMessageType(types)))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_timed_pop_filtered(b.g(), C.GstClockTime(timeout), C.GstMessageType(types))))
+	return r
 }
 
 func (b *Bus) SetFlushing(flushing bool) {
@@ -80,8 +89,9 @@ func (b *Bus) RemoveSignalWatch() {
 }
 
 func (b *Bus) Poll(events MessageType, timeout int64) *Message {
-	return (*Message)(C.gst_bus_poll(b.g(), C.GstMessageType(events),
-		C.GstClockTime(timeout)))
+	r := new(Message)
+	r.SetPtr(glib.Pointer(C.gst_bus_poll(b.g(), C.GstMessageType(events), C.GstClockTime(timeout))))
+	return r
 }
 
 func NewBus() *Bus {
