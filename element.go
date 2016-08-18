@@ -145,6 +145,10 @@ func (e *Element) g() *C.GstElement {
 	return (*C.GstElement)(e.GetPtr())
 }
 
+func (e *Element) Type() glib.Type {
+	return glib.TypeFromName("GstElement")
+}
+
 func (e *Element) AsElement() *Element {
 	return e
 }
@@ -1124,7 +1128,7 @@ func (e *Element) QueryDuration(format Format) (time.Duration, error) {
 //the GstEvent to send to the element.
 //Returns
 //TRUE if the event was handled. Events that trigger a preroll (such as flushing seeks and steps) will emit GST_MESSAGE_ASYNC_DONE.
-func (e *Element) SendEvent(event Event) bool {
+func (e *Element) SendEvent(event *Event) bool {
 	return C.gst_element_send_event(e.g(), event.g()) == 1
 }
 
