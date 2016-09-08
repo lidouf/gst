@@ -44,6 +44,16 @@ func (q *Query) ParseSeeking(format *Format) (bool, time.Duration, time.Duration
 	return seekable == 1, (time.Duration)(start), (time.Duration)(end)
 }
 
+func (q *Query) GetNBufferingRanges() int {
+	return int(C.gst_query_get_n_buffering_ranges(q.g()))
+}
+
+func (q *Query) ParseNthBufferingRange(r uint) (int64, int64) {
+	var start, stop C.gint64
+	C.gst_query_parse_nth_buffering_range(q.g(), C.guint(r), &start, &stop)
+	return int64(start), int64(stop)
+}
+
 func (q *Query) Unref() {
 	C.gst_query_unref(q.g())
 }
@@ -55,5 +65,15 @@ func NewQuerySeeking(format Format) *Query {
 	}
 	q := new(Query)
 	q.SetPtr(glib.Pointer(seeking))
+	return q
+}
+
+func NewQueryBuffering(format Format) *Query {
+	buffering := C.gst_query_new_buffering(*(format.g()))
+	if buffering == nil {
+		return nil
+	}
+	q := new(Query)
+	q.SetPtr(glib.Pointer(buffering))
 	return q
 }
