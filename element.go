@@ -154,7 +154,7 @@ func (e *Element) AsElement() *Element {
 }
 
 func (e *Element) AsVideoOverlay() *VideoOverlay {
-	cVideoOverlay := C.toGstVideoOverlay(e.GetPtr())
+	cVideoOverlay := C.toGstVideoOverlay(C.gpointer(e.GetPtr()))
 	//defer C.free(unsafe.Pointer(cVideoOverlay))
 	goVideoOverlay := new(VideoOverlay)
 	goVideoOverlay.SetPtr(glib.Pointer(cVideoOverlay))

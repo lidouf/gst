@@ -113,4 +113,4 @@ func convertToGoSlice(ptr **C.gchar, length int) []string {
 	return gostrings
 }
 
-var CLOCK_TIME_NONE = int64(C.GST_CLOCK_TIME_NONE)
+var CLOCK_TIME_NONE int64 = -1
