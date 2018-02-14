@@ -153,7 +153,7 @@ A pointer to object .
 */
 func (o *GstObj) Ref(obj *GstObj) *GstObj {
 	r := new(GstObj)
-	r.SetPtr(glib.Pointer(C.gst_object_ref(o.g())))
+	r.SetPtr(glib.Pointer(C.gst_object_ref(C.gpointer(o.GetPtr()))))
 	return r
 }
 
@@ -163,7 +163,7 @@ This function does not take the lock on object as it relies on atomic refcountin
 The unref method should never be called with the LOCK held since this might deadlock the dispose function.
 */
 func (o *GstObj) Unref() {
-	C.gst_object_unref(o.g())
+	C.gst_object_unref(C.gpointer(o.GetPtr()))
 }
 
 /**
@@ -174,7 +174,7 @@ If the object is not floating, then this call adds a new normal reference increa
 */
 func (o *GstObj) RefSink(obj *GstObj) *GstObj {
 	r := new(GstObj)
-	r.SetPtr(glib.Pointer(C.gst_object_ref_sink(o.g())))
+	r.SetPtr(glib.Pointer(C.gst_object_ref_sink(C.gpointer(o.GetPtr()))))
 	return r
 }
 
